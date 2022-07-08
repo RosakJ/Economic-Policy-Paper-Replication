@@ -1,0 +1,304 @@
+---
+title: |
+  | ECON 474: Econometrics of Policy Evaluation
+  
+  | Replication of "Do Police Reduce Crime? Estimates Using the Allocation of Police Forces after a Terrorist Attack" by Rafael Di Tella and Ernesto Schargrodsky
+author: "Licia Suria (mariefs2), John Rosak (rosak2), Duc Huynh (duc2), Ralph Cabaya (rcabay2)"
+date: '5/13/2022'
+output:
+  pdf_document:
+    extra_dependencies: ["cancel", "amsmath", "amssymb", "float"]
+    toc: no
+    #toc_depth: 3
+geometry: margin=1.2in
+urlcolor: blue
+fontfamily: mathpazo
+fontsize: 11pt
+header-includes:
+   - \linespread{1.05}
+---
+
+```{r setup, include=FALSE}
+  knitr::opts_chunk$set(include = TRUE)  # TRUE for solution; FALSE for questions set
+  knitr::opts_chunk$set(echo = TRUE)
+  knitr::opts_chunk$set(message = FALSE)
+  knitr::opts_chunk$set(warning = FALSE)
+  knitr::opts_chunk$set(fig.height = 5, fig.width = 7, out.width = '60%', fig.align = "center")
+  knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+  options(width = 100)
+```
+
+```{css, echo=FALSE}
+.solution {
+background-color: #CCDDFF;
+}
+```
+
+# Question
+
+The main question of the study is to estimate the impact of police presence on crime levels.
+
+For further context, the study was initialized in response to a terrorist attack aimed toward Jewish center in Buenos Aires, Argentina in 1994. After the terrorist attack, the government greatly increased policing levels in these areas for protection. The study utilized a Difference-in-Difference approach to calculate the true difference in car theft levels before and after an increase in policing to deduce the effect of police presence on crime. 
+
+Randomization was ensured through the random selection of 3 neighborhoods in Buenos Aires for a 9-month period from April 1st to December 31st, 1994. The collected data is the number of motor vehicle thefts per block before and after the terrorist attack.
+
+However, note that all 3 blocks are chosen for one constant characteristic, which is the large amount of Jewish population and institutions within the cities. Also, the majority of the population needs to be close to the implementation area, or the police station in another word. 
+
+The research is believed to function through deterrence and incapacitation. Deterrence being police presence making crimes less attractive to criminals and incapacitation, which is the apprehending of criminals to reduce the overall number of criminals; these are two deduced main mechanisms behind the program implementation.
+
+
+# Methodology
+
+## Summary
+This paper is based on a study done to research the true effect of police on crime. In our replication of this study, we remove endogeneity which is the positive bias in police coefficient in crime regression caused by the tendency of areas with high crime rate hiring more police and ending up with more officers than low crime areas.
+
+In the article, we found that July 18, 1994: terrorists exploded a bomb that destroyed the Asociacion Mutual Israelita Argentina (AMIA), the main Jewish center in Argentina. 85 people died, and 300 were wounded.
+One week later, the federal government assigned police protection to every Jewish and Muslim building in the country. The geographical distribution of these institutions are presumed to be exogenous, so the event is a natural experiment that breaks the simultaneous determination of crime and police presence.
+
+Our collected and replicated data is based during a 9-month period from the months of April 1 – December 31, 1994. The data contains the number of motor vehicle thefts per block in 3 neighborhoods in Buenos Aires before and after the terrorist attack, the location of each Jewish institution in these neighborhoods, and the estimated effect of police presence on car thefts. 
+
+The DiD estimate: blocks that receive police protection experience significantly fewer car thefts than the rest of the neighborhoods. The effect is large. We found that relative to the control group, car thefts fall by 75% in blocks with the protected institution. However, the effect is extremely local. No evidence that police presence in a given block reduces car theft 1 or 2 blocks away from the protected building.
+
+  
+__Mechanisms by which police reduce crime:__  
+1. Police presence makes criminal activity less attractive (deterrence)  
+2. Police officers apprehend criminals, leaving fewer of them to commit crimes (incapacitation)  
+The result is based on changes in crime levels in particular locations (protected blocks). 
+The result is unlikely to reflect changes in numbers of incarcerated criminals which should affect all neighborhood blocks, not just those containing Jewish institutions.  
+__So, they believe their result is a causal deterrent effect of police staffing on car theft__.
+However, it is still possible that car thefts were displaced in a way that they are unable to measure, which would cause the estimates of policing to be smaller.  
+ 
+## Data Description
+
+* Our collected data consists of the following information:
+  + July 18, 1994: terrorist attack destroyed main Jewish Center (A.M.I.A) in Buenos Aires, Argentina
+  + July 25, 1994 (1 week later): federal government provide 24-hour police protection to more than 270 Jewish and Muslim institutions (including synagogues, mosques, clubs, cemeteries, schools), to provide police protection for 10 years after the attack.
+  + Islamic organization Hebzollah was the terrorist responsible for the attack
+  + The effort was to increase policing in these areas, but still maintain previous policing levels in the rest of neighborhoods, to avoid residents getting ill feelings towards the Jewish community if the current policing levels decreased. To meet this increased demand, they reassigned administrative police from Central Police Department, Communications Division, and Mounted Police.
+  + Data is from 3 noncontiguous, Buenos Aires neighborhoods that represent 3.2% of city area and 6.9% of city population.
+  + 1 police station is stationed in each neighborhood.
+
+* __Neighborhoods were selected on the basis of 3 criteria:__
+  1. Areas with largest number of Jewish institutions in the city
+  2. Significant portions of the neighborhoods were not close to a protected institution (more than 50% of the blocks are more than 2 blocks removed from a protected institution), thereby providing a control group for the study
+  3. There was a maximum number of police stations with available data
+  + There is a total of 876 blocks in these 3 neighborhoods.
+  + A block is denoted as the unit of observation in this study.
+
+* __Timeline__
+  + 9 month period: April 1 – Dec 31, 1994
+  + Before terrorist attack: April 1 – July 17
+  + Interim period: July 18 – July 31. This is a first week where surveillance had not been introduced, and a second week where police began to implement the protection policy.
+  + By the end of last week of July, police protection was fully functioning and known to the public
+  + Period of police protection: August 1 – December 31
+
+* The victimization survey cited that 87% of Buenos Aires car thefts are reported to the police, compared to 29% of all other crimes. This high number of reports (and an advantage compared to other crimes) is because:   
+  1. Police intervention is required to activate car insurance against theft
+  2. Criminals often use stolen cars to commit other crimes, so victims who report car thefts to the police, forestall confusion about their involvement in such crimes  
+
+* Car theft information obtained from the police includes:
+  + Address at which stolen vehicle was parked
+  + Make and year of vehicle
+  + Day and time of report
+  + Whether robbery was violent – 794 unarmed car thefts
+* Car thefts occur both in middle of blocks & corner
+
+* Completed data set included:
+  + Geography of these neighborhoods, the precise location of each Jewish institution
+  + There are 45 protected institutions in this part of city
+  + 37 are within these neighborhoods, and 8 are near the boundaries (but less than three blocks away).
+
+![](table1.jpg){}
+
+* Table 1 compares socioeconomic characteristics potentially related to crime victimization and car ownership across areas without and with Jewish institutions.
+* The lowest level of aggregation for which census information is available: census tracts (8-10 hectares).
+* Tests of means reveal no statistical differences between census tracts that contain & don’t contain Jewish institutions along the following dimensions:
+  + Home ownership rate
+  + % of overcrowded households
+  + % of poor households
+  + Number of household members
+  + % of women
+  + Employment rate
+  + Age
+* The only dimension which these census tracts differed was: years of education of the household head:
+  + 11.65 for tracts without Jewish institutions
+  + 11.05 for tracts with Jewish institutions
+** We interpret this results as the surveillance policy was randomly assigned across socioeconomic characteristics. **
+* __A key dimension is: the distance of each block to the nearest Jewish institution. We distinguish between:__
+  + Blocks that contain Jewish institution
+  + Blocks that are contiguous in any direction to a block containing a Jewish institution
+  + Blocks that are 2 blocks away in any direction from a block containing a Jewish institution
+  
+  These three blocks are the Treatment Group. 
+  + Then we compare these blocks with ones that are more than 2 blocks away from a block containing a Jewish institution, which are denoted as the Control Group.
+
+![](table2.jpg){}
+
+* Table 2 presents means and standard deviations of auto thefts for each month for each type of block.
+* The bottom row tallies the number of blocks of each type.
+* Result: for the post-July period, table shows that relative to control group, blocks with a Jewish institution experienced lower level of car theft (exception: October). However, this was not observed for blocks that are 1-2 blocks away from the nearest Jewish institution.
+* Prior to the attack, there are no discernible differences in the averages across the different types of blocks.
+* After the attack, the average car thefts for blocks that contain Jewish institutions have a lower mean. Instead, car theft levels for other types of blocks show a slight increase over time.
+
+
+# Results
+
+## Replicating Figure 2
+
+In this plot we show the Per-Month Average Car Theft from the data we have, showing the average change over time and before and after the treatment (the black vertical line).
+
+```{r}
+library(tidyverse)
+
+# Importing the data
+theftData = readRDS("DS04.RDS")
+
+# Cleaning the name of the data up
+theftData$Institution = ifelse(theftData$institu1 == 1, 
+                               'Jewish Institution', 'No Institution')
+
+theftData$month = ifelse(theftData$mes == 4, 'April',
+                  ifelse(theftData$mes == 5, 'May',
+                  ifelse(theftData$mes == 6, 'June',
+                  ifelse(theftData$mes == 7, 'July',
+                  ifelse(theftData$mes == 8, 'August',
+                  ifelse(theftData$mes == 9, 'September', 
+                  ifelse(theftData$mes == 10, 'October', 
+                  ifelse(theftData$mes == 11, 'November', 'December'))))))))  
+
+# Creating the plot for "Monthly Evolution of Car Thefts"
+ggplot(data = theftData, 
+       aes(x = month, y = totrob, color = Institution, group = Institution)) + 
+  geom_line(stat = "summary", fun = "mean") + 
+  labs(x = "Month", y = "Per-Month Average of Car Thefts", 
+       title = "Monthly Evolution of Car Thefts") +
+  geom_vline(xintercept = 'July')
+
+```
+
+## Replicating Column (A) of Table 3
+
+In this part, we calculated the difference in difference estimation using two methods:  
+1. A simple calculation by subtracting the means of average car theft before and after policing interventions  
+2. Running a regression
+```{r}
+# Separating the data based on before and after
+theftData$before = ifelse(theftData$mes <= 7, 1, 0)
+
+# Table of Means of Average Car Theft Before and After Policing Intervention
+theftData %>%
+  group_by(institu1) %>%
+  summarize('Average Car Theft Before' = mean(totrob),
+            'Average Car Theft After' = mean(totrob))
+
+institutionYesBeforeData = theftData %>%
+  filter(institu1 == 1) %>%
+  filter(before == 1)
+
+institutionNoBeforeData = theftData %>%
+  filter(institu1 == 0) %>%
+  filter(before == 1)
+
+institutionYesAfterData = theftData %>%
+  filter(institu1 == 1) %>%
+  filter(before == 0)
+
+institutionNoAfterData = theftData %>%
+  filter(institu1 == 0) %>%
+  filter(before == 0)
+
+institutionNoBefore = mean(institutionNoBeforeData$totrob)
+institutionNoAfter = mean(institutionNoAfterData$totrob)
+institutionYesBefore = mean(institutionYesBeforeData$totrob)
+instituiionYesAfter = mean(institutionYesAfterData$totrob)
+
+# Difference in Difference Estimation
+DiD = (instituiionYesAfter - institutionYesBefore) - 
+  (institutionNoAfter - institutionNoBefore)
+DiD
+```
+
+# Regression Calculation
+
+The goal is to identify the causal effect of police presence on car thefts.
+The dependent variable is total number of car thefts per block during each month from April to December 1994. 
+We exclude car thefts that occurred between July 18-July 31 (interim period).
+
+We control for time and individual effects through:  
+1. Including month fixed effects that control for any aggregate shocks in the evolution of crime.  
+2. Including block fixed effects that control for time-invariant influences.
+
+$$Car Theft_{it}=\alpha_0Same Block Police_{it} + M_t +F_{i}+\varepsilon_{it}$$
+$Car Theft_{it}$: number of car thefts in block i for month t  
+$\alpha_0Same Block Police_{it}$: dummy variable that equals 1 for months after terrorist attack (August – December) if there is a protected institution in the block; 0 otherwise  
+$M_t$ = month fixed effect  
+$F_i$ = block fixed effect  
+$\varepsilon_{it}$ = error term  
+
+**The difference between our replication and the original paper:** \hfill\break
+1. We include interim period as the “before” period, because we cannot separate this period like in the original dataset, for the coding part of the replication instructs us to aggregate the data by month instead of by week like in the original dataset.  
+2. In our replication, we only use same-block police and remove one-block and two-block police as per the project's instructions. 
+
+* Key aspect of empirical study: geographical allocation of police forces included by the surveillance is exogenous to crime distribution.
+* Officers are placed in these blocks to protect against a potential terrorist target, not in response to levels of common crime.
+* Thus, the terrorist attack provides a natural experiment that breaks the simultaneous determination of crime and police presence.
+* A follow-up question to the experiment: to what extent are the police officers deployed to protect Jewish and Muslim institutions effective anticrime agents?
+
+```{r}
+library(fixest)
+
+# Creating Regression Variables
+theftData$TREAT = ifelse(theftData$institu1 == 0, 0, 1)
+theftData$POST = ifelse(theftData$before == 0, 1, 0)
+theftData$Dint = theftData$TREAT * theftData$POST
+
+reg = feols(totrob ~ Dint + POST + TREAT, se = "standard", data = theftData)
+etable(reg)
+```
+
+### Regression Results
+
+* Our code only replicates Column A of Table 3 (only Same-Block Police).
+* The original paper did multiple regressions and added more covariates (One Block Police & Two Block Police).
+* Result: the introduction of fixed and observable police presence generated a significant decline in car thefts in the protected blocks, but no effect 1 or 2 blocks away relative to the rest of the neighborhoods.
+* Increase in policing presence by 1 unit is estimated to decrease car thefts by -0.07752, which is the coefficient of the Same-Block Police variable. This result is the same as the original paper.
+* The regression result is the same as the Difference-in-Difference result using table of means of car thefts before and after policing increase (-0.07752).
+
+## Calculating Police-Crime Elasticity
+How to calculate police-crime elasticity: change in crime level (Dint coefficient of change in crime rate) divided by change in policing level (223%, a given number).
+
+To calculate elasticity, we have to run a log regression to be able to interpret the Dint coefficient in percentage, because the change in policing level is given in percentage.
+```{r}
+reg = feols(log(totrob) ~ Dint + POST + TREAT, se = "standard", data = theftData)
+etable(reg)
+
+elasticity = -0.3747/2.23
+elasticity
+
+```
+The crime-police elasticity is -0.17.  
+A 1% increase in policing is expected to reduce the number of car thefts by 0.17%. This result is the same as the original paper.
+
+# Conclusions and Limitations
+
+## Conclusions
+
+  This study was conducted to estimate the impact of policing on crime levels, specifically car theft levels in this case. Data was collected based on the number of car thefts in Buenos Aires before and after the terrorist attack. Based on the results of our code, a one unit increase of policing is expected to reduce car theft rates by -0.07752. We also calculated the police-crime elasticity, in which a 1% increase in policing is expected to reduce the number of car thefts by 0.17%. The results we replicated are the same as the results in original paper. Two approaches were conducted to calculate the Difference-in-Difference estimation: running a fixed-effect regression and calculating the difference in means. 
+
+## Limitations
+
+  A possible issue in this study is that the data is taken in a rather mid-high income area. Car theft data may be less accurate due to people in low-income areas being more inclined to report car thefts, while in high income areas, people may shrug it off like it is nothing. Not to mention, it is less likely for crimes to occur in mid to high income area, especially car thefts. 
+
+  In addition, this study only represents data regarding car thefts, not about other crimes. The results on other crimes may differ greatly and show us different insights on the true effect of police presence on crime levels. There may be different types of crimes in different areas with different ethnicities, lifestyles, and incomes. 
+
+  Interestingly, the state of the police implementation may determine the result too. If a police officer is stationed at different spots, it is more likely that we see reduction in car thefts as the procedure would take time, and it would be nearly impossible to pull it off. On the other hand, moving police on vehicles may show no effect on car theft as they are constantly on the move, which allows criminals to just wait for them to move away from the spot. 
+
+  Furthermore, the impact of the implementation could be underestimated as there are already private security booths in those high income areas, which means there is an overlapping of surveillance in certain areas. 
+
+  Lastly, the displacement of crimes is apparent in almost every crime study. If there is an increase of police force in one area, crime tends to move to neighboring blocks and cities as a result. This can cause an overestimation of the results of impact of policing on crime levels.
+
+\newpage
+
+# Works Cited
+
+Di Tella, R., & Schargrodsky, E. (2004). Do Police Reduce Crime? Estimates Using the Allocation of Police Forces after a Terrorist Attack. The American Economic Review, 94(1), 115–133. http://www.jstor.org/stable/3592772
